@@ -1,6 +1,6 @@
-Alfred 2-Workflows
+Alfred 2 Workflows
 =================
-Workflows for [Alfred 2](http://www.alfredapp.com/)
+Workflows for [Alfred 2](http://www.alfredapp.com/).
 
 Add Date To Filename
 ---
@@ -12,7 +12,7 @@ Compare In Kaleidoscope
 ---
 Compares selected Finder items in [Kaleidoscope 2](http://cl.ly/NoMY).
 
-![KS Diff Screenshot](https://raw.github.com/jamesstout/Alfred2-Workflows/master/images/folder-diff3.png)
+![KS Diff Screenshot](images/folder-diff3.png)
 
 My review of [Kaleidoscope 2](http://cl.ly/Nn0J).
 
