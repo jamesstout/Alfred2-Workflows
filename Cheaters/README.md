@@ -25,5 +25,5 @@ One slight complication/hack is that there are two Automator workflows.
 The first runs an AppleScript that starts the second Automator workflow, waits for a couple of seconds then kills the "Automator Launcher" process that started the second Automator workflow. If the launcher process is not killed, the Automator progress spinning gear appears in the Menu Bar and keeps spinning until you close the web-popup.
 
 ### To-Do ###
-* Find more elegant solution to the Automator Launcher spinning gear icon. I tried this as both an Automator workflow and an application, both spawn the spinning gear. If everyone had [Bartender](http://www.macbartender.com), the spinning gear could be hidden by Bartender and there would be no need for the two workflows.
+* Find more elegant solution to the Automator Launcher spinning gear icon hack. I tried this as both an Automator workflow and an application, both spawn the spinning gear. If everyone had [Bartender](http://www.macbartender.com), the spinning gear could be hidden by Bartender and there would be no need for the two workflows.
 * Update Cheaters git repo from origin master
