@@ -4,6 +4,8 @@ Hit your hotkey and [Cheaters](http://ttscoff.github.io/cheaters/) will appear i
 
 Cheaters is a customizable cheat sheet system for OS X written by [Brett Terpstra](http://brettterpstra.com/).
 
+![Cheat Sheets wide](http://brettterpstra.com/uploads/2012/03/Cheat-Sheets-wide.jpg)
+
 ### Notes ###
 Requires [git](http://git-scm.com/)  to get the Cheaters source code. I could use `curl` , if people prefer.
 
