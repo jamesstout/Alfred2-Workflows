@@ -1,7 +1,30 @@
-#Add Date To Filename
+#Run Cheaters
 
-Select a file in Finder and hit your hotkey.
+Hit your hotkey and [Cheaters](http://ttscoff.github.io/cheaters/) will appear in a web-popup.
 
-Adds the *creation* date to the file before the extension:
+Cheaters is a customizable cheat sheet system for OS X written by [Brett Terpstra](http://brettterpstra.com/).
 
-E.g. Item Name.xxx -> Item Name-20130523.xxx
+### Notes ###
+Requires [git](http://git-scm.com/)  to get the Cheaters source code. I could use `curl` , if people prefer.
+
+The script has simple logic:
+
+* checks if `git` is installed, if not, exit.
+* checks if Cheaters is already installed:
+	* if not, clone from [GitHub](https://github.com), then run workflow.
+	* if true, then check if it's a `git` repo:
+		* if not, exit.
+		* if true, check if there are any uncommitted/untracked/unstashed files:
+			* if not, update the repo (not sure this is needed, updating from remote origin/upstream was my plan), then run the workflow.
+			* if true, ask user if they want to overwrite/reset, then run the workflow.
+
+One slight complication/hack is that there are two Automator workflows.
+
+The first runs an AppleScript that starts the second Automator workflow, waits for a couple of seconds then kills the "Automator Launcher" process that started the second Automator workflow. If the launcher process is not killed, the Automator progress spinning gear appears in the Menu Bar and keeps spinning until you close the web-popup[^fn-treid-app] .
+
+### To-Do ###
+* Find more elegant solution to the Automator Launcher spinning gear icon
+* Update Cheaters git repo from origin master
+
+
+[^fn-treid-app]: I tried this as both an Automator workflow and an application, both spawn the spinning gear. If everyone had [Bartender](http://www.macbartender.com), the spinning gear could be hidden by Bartender and there would be no need for the two workflows. I'm trying to come up with a more elegant solution - open to suggestions!
