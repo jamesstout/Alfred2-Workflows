@@ -1,4 +1,4 @@
-#Run Cheaters
+#Cheaters
 
 Hit your hotkey and [Cheaters](http://ttscoff.github.io/cheaters/) will appear in a web-popup.
 
