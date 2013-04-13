@@ -40,6 +40,7 @@ Suggestions/improvements [welcome](https://github.com/jamesstout/Alfred2-Workflo
 
 * [Brett Terpstra](http://brettterpstra.com/) for sharing his [Cheaters system](https://github.com/ttscoff/cheaters).
 * [Nicolas Gallagher](http://nicolasgallagher.com/) and his [dotfiles utils functions](https://github.com/necolas/dotfiles) - he said it was [OK to copy](https://raw.github.com/janmoesen/tilde/master/COPYING).
+* Marko Kaestner for his [BashWorkflowHandler](https://github.com/markokaestner/alfred2/tree/master/workflows/BashWorkflowHandler).
 * [Black Pixel](http://www.blackpixel.com/) for [Kaleidoscope 2](http://www.kaleidoscopeapp.com/).
 * And of course, The Pepperrells, for creating [Alfred](http://www.alfredapp.com/).
 
