@@ -39,9 +39,9 @@ Suggestions/improvements [welcome](https://github.com/jamesstout/Alfred2-Workflo
 ## Thanks to…
 
 * [Brett Terpstra](http://brettterpstra.com/) for sharing his [Cheaters system](https://github.com/ttscoff/cheaters).
-* [Nicolas Gallagher](http://nicolasgallagher.com/) and his [dotfiles utils functions](https://github.com/necolas/dotfiles).[^fn-copy-ok] 
+* [Nicolas Gallagher](http://nicolasgallagher.com/) and his [dotfiles utils functions](https://github.com/necolas/dotfiles) - he said it was [OK to copy](https://raw.github.com/janmoesen/tilde/master/COPYING).
 * [Black Pixel](http://www.blackpixel.com/) for [Kaleidoscope 2](http://www.kaleidoscopeapp.com/).
 * And of course, The Pepperrells, for creating [Alfred](http://www.alfredapp.com/).
 
 
-[^fn-copy-ok]: he said it was [OK to copy](https://raw.github.com/janmoesen/tilde/master/COPYING).
+
