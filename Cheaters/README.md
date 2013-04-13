@@ -13,7 +13,7 @@ The script has simple logic:
 
 * checks if `git` is installed, if not, exit.
 * checks if Cheaters is already installed:
-	* if not, clone from [GitHub](https://github.com), then run workflow.
+	* if not, clone repo from [GitHub](https://github.com/ttscoff/cheaters) into the workflow directory, then run workflow.
 	* if true, then check if it's a `git` repo:
 		* if not, exit.
 		* if true, check if there are any uncommitted/untracked/unstashed files:
