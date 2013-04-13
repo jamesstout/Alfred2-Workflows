@@ -49,29 +49,42 @@ alf_type_exists() {
     return 1
 }
 
+alf_get_git_branch() {
+    local branch_name
+
+    # Get the short symbolic ref
+    branch_name=$(git symbolic-ref --quiet --short HEAD 2> /dev/null) ||
+    # If HEAD isn't a symbolic ref, get the short SHA
+    branch_name=$(git rev-parse --short HEAD 2> /dev/null) ||
+    # Otherwise, just give up
+    branch_name="(unknown)"
+
+    printf $branch_name
+}
+
 # Git status information
 alf_git_status() {
     local git_state uc us ut st
-	git update-index --really-refresh  -q &>/dev/null
+    git update-index --really-refresh  -q &>/dev/null
 
     # Check for uncommitted changes in the index
     if ! $(git diff --quiet --ignore-submodules --cached); then
-	uc="+"
+        uc="+"
     fi
 
     # Check for unstaged changes
     if ! $(git diff-files --quiet --ignore-submodules --); then
-	us="!"
+        us="!"
     fi
 
     # Check for untracked files
     if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-	ut="?"
+        ut="?"
     fi
 
     # Check for stashed files
     if $(git rev-parse --verify refs/stash &>/dev/null); then
-	st="$"
+        st="$"
     fi
 
     git_state=$uc$us$ut$st
@@ -84,24 +97,24 @@ alf_git_overwrite() {
 
 user_response=$(osascript <<EOF
 tell application "System Events"
-	activate
-	set userCanceled to false
-	try
-		set alertResult to display alert "Your git repo has local changes, do you want to over-write them?" ¬
-			message "Your local changes will be LOST if you click YES" ¬
-		buttons {"No", "Yes"} as warning ¬
-		default button "No" cancel button "No" giving up after 5
-	on error number -128
-	set userCanceled to true
-	end try
+    activate
+    set userCanceled to false
+    try
+        set alertResult to display alert "Your git repo has local changes, do you want to over-write them?" ¬
+            message "Your local changes will be LOST if you click YES" ¬
+            buttons {"No", "Yes"} as warning ¬
+            default button "No" cancel button "No" giving up after 5
+    on error number -128
+        set userCanceled to true
+    end try
 
-	if userCanceled then
-	    set alertResult to "NO"
-	else if gave up of alertResult then
-	    set alertResult to "NO"
-	else if button returned of alertResult is "Yes" then
-		set alertResult to "YES"
-	end if
+    if userCanceled then
+        set alertResult to "NO"
+    else if gave up of alertResult then
+        set alertResult to "NO"
+    else if button returned of alertResult is "Yes" then
+        set alertResult to "YES"
+    end if
 end tell
 
 EOF)
