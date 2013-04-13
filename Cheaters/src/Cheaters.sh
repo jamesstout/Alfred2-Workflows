@@ -1,6 +1,30 @@
 #!/bin/bash
 
 source utils.sh
+source workflowHandler.sh
+
+VERSION="1.1"
+DATADIR=$(getDataDir)
+#echo "$DATADIR"
+
+CHEATERSDIR="$DATADIR/cheaters"
+
+#echo "$CHEATERSDIR"
+
+# grab a copy of the current version
+# for future use. If it doesn't exist it's just blank
+PREV_VERSION=$(getPref "version" 1 "myprefs.txt")
+
+if [ "$PREV_VERSION" = "" ]; then
+	PREV_VERSION=$VERSION
+fi
+
+#echo "$PREV_VERSION"
+
+# this creates the 
+# ${HOME}/Library/Application Support/Alfred 2/Workflow Data/com.stouty.cheaters dir
+# if it doesn't already exist
+setPref "version" "$VERSION" 1 "myprefs.txt"
 
 # we need two workflows
 # one is an AppleScript that runs the other
@@ -34,9 +58,9 @@ fi
 
 #alf_debug "git installed"
 
-if alf_file_exists cheaters ; then
+if alf_file_exists "$CHEATERSDIR" ; then
 	#alf_debug "cheaters dir exists"
-	cd cheaters
+	cd "$CHEATERSDIR"
 
 	# check is git repo
 	if ! alf_is_git_repo ; then
@@ -47,6 +71,11 @@ if alf_file_exists cheaters ; then
 	else
 		#alf_debug "is a git repo"
 		git_info=$(alf_git_status)
+
+		# maybe use later
+		#branch=$(alf_get_git_branch)
+
+		#echo $branch
 
 		#alf_debug "git_info = [$git_info]"
 
@@ -63,6 +92,7 @@ if alf_file_exists cheaters ; then
 					alf_debug "git_overwrite = YES, updating"
 					# this will just overwrite any uncommitted/stashed/tracked
 					# files in the current branch to the local HEAD.
+					# should this be FETCH_HEAD after a git fetch?
 					git reset --hard HEAD
 				else
 					alf_debug "git_overwrite = NO, leaving"
@@ -79,7 +109,7 @@ if alf_file_exists cheaters ; then
 else
 	alf_debug "cheaters dir does NOT exist, cloning"
 	# edit this line if you have your own fork
-	git clone -q https://github.com/ttscoff/cheaters.git cheaters
+	git clone -q https://github.com/ttscoff/cheaters.git "$CHEATERSDIR"
 	RC=$?
 
 	if [ $RC -ne 0 ]
@@ -90,11 +120,13 @@ else
 		exit
 	else
 		alf_debug "cheaters git repo cloned"
-		cd cheaters
+		cd "$CHEATERSDIR"
 	fi
 fi
 
-output=`automator  -i "file://$PWD/index.html $WF" $WF2  2>&1 `
+#echo "file://$CHEATERSDIR/index.html $WF"
+
+output=`automator  -i "\"file://$CHEATERSDIR/index.html\" $WF" $WF2  2>&1 `
 RC=$?
 
 if [ $RC -ne 0 ]
