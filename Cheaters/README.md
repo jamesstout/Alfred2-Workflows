@@ -26,4 +26,4 @@ The first runs an AppleScript that starts the second Automator workflow, waits f
 
 ### To-Do ###
 * Find more elegant solution to the Automator Launcher spinning gear icon hack. I tried this as both an Automator workflow and an application, both spawn the spinning gear. If everyone had [Bartender](http://www.macbartender.com), the spinning gear could be hidden by Bartender and there would be no need for the two workflows.
-* Update Cheaters git repo from origin master
+* Update Cheaters git repo from origin/upstream master
