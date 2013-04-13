@@ -48,32 +48,26 @@ if alf_file_exists cheaters ; then
 		#alf_debug "is a git repo"
 		git_info=$(alf_git_status)
 
-		#echo "git_info = [$git_info]"
 		#alf_debug "git_info = [$git_info]"
 
 		if [ "$git_info" != "" ]
 			then
-				#echo "GIT not clean"
 				alf_debug "GIT not clean"
 				# ask user if they want to reset
 				git_overwrite=$(alf_git_overwrite)
 
-				#echo "git_overwrite = [$git_overwrite]"
 				alf_debug "git_overwrite = [$git_overwrite]"
 
 				if [ "$git_overwrite" == "YES" ]
 				then
-					#echo "git_overwrite = YES, updating"
 					alf_debug "git_overwrite = YES, updating"
 					# this will just overwrite any uncommitted/stashed/tracked
 					# files in the current branch to the local HEAD.
 					git reset --hard HEAD
 				else
-					#echo "git_overwrite = NO, leaving"
 					alf_debug "git_overwrite = NO, leaving"
 				fi
 		else
-			#echo "GIT clean, updating"
 			alf_debug "GIT clean, updating"
 			# not sure we need to do this
 			# local branch should be up to date
@@ -83,7 +77,6 @@ if alf_file_exists cheaters ; then
 		fi
 	fi
 else
-	#echo "cheaters dir NOT exists, cloning"
 	alf_debug "cheaters dir does NOT exist, cloning"
 	# edit this line if you have your own fork
 	git clone -q https://github.com/ttscoff/cheaters.git cheaters
@@ -97,7 +90,6 @@ else
 		exit
 	else
 		alf_debug "cheaters git repo cloned"
-		#echo "cheaters git repo cloned"
 		cd cheaters
 	fi
 fi
