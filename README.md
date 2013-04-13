@@ -33,13 +33,15 @@ Run [Cheaters](https://github.com/ttscoff/cheaters) by [Brett Terpstra](http://b
 
 ## Feedback
 
-Suggestions/improvements
-[welcome](https://github.com/jamesstout/Alfred2-Workflows/issues)!
+Suggestions/improvements [welcome](https://github.com/jamesstout/Alfred2-Workflows/issues)!
 
 
 ## Thanks to…
 
-* [Brett Terpstra](http://brettterpstra.com/) for sharing his [Cheaters system](https://github.com/ttscoff/cheaters)
-* [Nicolas Gallagher](http://nicolasgallagher.com/) and his [dotfiles utils functions](https://github.com/necolas/dotfiles)
-* [Black Pixel](http://www.blackpixel.com/) for [Kaleidoscope 2](http://www.kaleidoscopeapp.com/)
-* And of course, The Pepperrells, for creating [Alfred](http://www.alfredapp.com/)
+* [Brett Terpstra](http://brettterpstra.com/) for sharing his [Cheaters system](https://github.com/ttscoff/cheaters).
+* [Nicolas Gallagher](http://nicolasgallagher.com/) and his [dotfiles utils functions](https://github.com/necolas/dotfiles).[^fn-copy-ok] 
+* [Black Pixel](http://www.blackpixel.com/) for [Kaleidoscope 2](http://www.kaleidoscopeapp.com/).
+* And of course, The Pepperrells, for creating [Alfred](http://www.alfredapp.com/).
+
+
+[^fn-copy-ok]: he said it was [OK to copy](https://raw.github.com/janmoesen/tilde/master/COPYING).
