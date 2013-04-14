@@ -1,6 +1,6 @@
 # Changelog for Cheaters  #
 
-##v1.1 - 15 April 2013
+##v1.2 - 15 April 2013
 * Fix for spaces in paths. 
 
 ##v1.1 - 14 April 2013
