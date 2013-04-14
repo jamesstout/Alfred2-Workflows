@@ -1,5 +1,5 @@
 {
-    "version": 1.1,
+    "version": 1.2,
     "download_url": "http://zoooot.com/alfred/workflows/Cheaters.alfredworkflow",
-    "description": "Update for Alleyoop compatibility"
+    "description": "Fix for spaces in paths"
 }

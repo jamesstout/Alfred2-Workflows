@@ -3,7 +3,7 @@
 source utils.sh
 source workflowHandler.sh
 
-VERSION="1.1"
+VERSION="1.2"
 DATADIR=$(getDataDir)
 #echo "$DATADIR"
 
@@ -34,14 +34,14 @@ WF="$PWD/Cheaters.workflow"
 WF2="$PWD/CheatersRunner.workflow"
 
 # quick check to see they exist
-if ! alf_file_exists $WF ; then
+if ! alf_file_exists "$WF" ; then
 	OUTPUT="$WF NOT found, cannot continue"
 	alf_error $OUTPUT
 	echo "ERROR $OUTPUT"
 	exit
 fi
 
-if ! alf_file_exists $WF2 ; then
+if ! alf_file_exists "$WF2" ; then
 	OUTPUT="$WF2 NOT found, cannot continue"
 	alf_error $OUTPUT
 	echo "ERROR $OUTPUT"
