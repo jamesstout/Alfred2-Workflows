@@ -7,11 +7,12 @@ LOGFILE="$HOME/Desktop/Cheaters_DEBUG.txt"
 
 $(env > "$LOGFILE")
 
-VERSION="1.1"
+VERSION="1.3"
 DATADIR=$(getDataDir)
 echo "\nDATADIR = $DATADIR" >>  "$LOGFILE"
 
 CHEATERSDIR="$DATADIR/cheaters"
+#CHEATERSDIR=$(printf %q "$DATADIR/cheaters")
 
 #echo "$CHEATERSDIR"
 
@@ -53,9 +54,8 @@ echo "WF = $WF" >>  "$LOGFILE"
 echo "WF2 = $WF2" >>  "$LOGFILE"
 
 
-
 # quick check to see they exist
-if ! alf_file_exists $WF ; then
+if ! alf_file_exists "$WF" ; then
 	OUTPUT="$WF NOT found, cannot continue"
 
 	echo "ERROR $OUTPUT" >>  "$LOGFILE"
@@ -68,7 +68,7 @@ if ! alf_file_exists $WF ; then
 	exit
 fi
 
-if ! alf_file_exists $WF2 ; then
+if ! alf_file_exists "$WF2" ; then
 	OUTPUT="$WF2 NOT found, cannot continue"
 	echo "ERROR $OUTPUT" >>  "$LOGFILE"
 
@@ -138,7 +138,7 @@ if alf_file_exists "$CHEATERSDIR" ; then
 					# this will just overwrite any uncommitted/stashed/tracked
 					# files in the current branch to the local HEAD.
 					# should this be FETCH_HEAD after a git fetch?
-					git reset --hard HEAD
+					git reset -q --hard HEAD
 				else
 					alf_debug "git_overwrite = NO, leaving"
 					echo "git_overwrite = NO, leaving" >>  "$LOGFILE"
@@ -168,17 +168,21 @@ else
 		echo "ERROR $OUTPUT"
 		exit
 	else
-		alf_debug "cheaters git repo cloned"
-		echo "cheaters git repo cloned" >>  "$LOGFILE"
+		alf_debug "cheaters git repo cloned to $CHEATERSDIR"
+		echo "cheaters git repo cloned to $CHEATERSDIR" >>  "$LOGFILE"
 		cd "$CHEATERSDIR"
 	fi
 fi
 
-echo "file://$CHEATERSDIR/index.html $WF" >>  "$LOGFILE"
+URL="'file://$CHEATERSDIR/index.html' \"$WF\""
 
+echo $URL >>  "$LOGFILE"
 
-output=`automator  -i "\"file://$CHEATERSDIR/index.html\" $WF" $WF2  2>&1 `
+alf_debug "Running: automator -i \"$URL\"  \"$WF2\""
+
+output=$(automator -i "$URL" "$WF2"  2>&1)
 RC=$?
+output=$(alf_remove_spesh "$output")
 
 if [ $RC -ne 0 ]
 then

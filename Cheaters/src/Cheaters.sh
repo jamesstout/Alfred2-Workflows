@@ -3,7 +3,7 @@
 source utils.sh
 source workflowHandler.sh
 
-VERSION="1.2"
+VERSION="1.3"
 DATADIR=$(getDataDir)
 #echo "$DATADIR"
 
@@ -32,6 +32,9 @@ setPref "version" "$VERSION" 1 "myprefs.txt"
 # this stops the spinning automator gear in the menu bar
 WF="$PWD/Cheaters.workflow"
 WF2="$PWD/CheatersRunner.workflow"
+#AS_RUNNER="$PWD/runner.scpt"
+#AS_PROG="$PWD/prog.scpt"
+
 
 # quick check to see they exist
 if ! alf_file_exists "$WF" ; then
@@ -93,22 +96,23 @@ if alf_file_exists "$CHEATERSDIR" ; then
 					# this will just overwrite any uncommitted/stashed/tracked
 					# files in the current branch to the local HEAD.
 					# should this be FETCH_HEAD after a git fetch?
-					git reset --hard HEAD
+					git reset -q --hard HEAD
 				else
 					alf_debug "git_overwrite = NO, leaving"
 				fi
 		else
-			alf_debug "GIT clean, updating"
+			alf_debug "GIT clean, not updating"
 			# not sure we need to do this
 			# local branch should be up to date
 			# could do something with origin/upstream remotes
 			# but not at the moment
-			git pull -q
+			#git pull -q
 		fi
 	fi
 else
 	alf_debug "cheaters dir does NOT exist, cloning"
 	# edit this line if you have your own fork
+
 	git clone -q https://github.com/ttscoff/cheaters.git "$CHEATERSDIR"
 	RC=$?
 
@@ -119,15 +123,21 @@ else
 		echo "ERROR $OUTPUT"
 		exit
 	else
-		alf_debug "cheaters git repo cloned"
+		alf_debug "cheaters git repo cloned to $CHEATERSDIR"
 		cd "$CHEATERSDIR"
 	fi
 fi
 
 #echo "file://$CHEATERSDIR/index.html $WF"
 
-output=`automator  -i "\"file://$CHEATERSDIR/index.html\" $WF" $WF2  2>&1 `
+URL="'file://$CHEATERSDIR/index.html' \"$WF\""
+
+alf_debug "Running: automator -i \"$URL\"  \"$WF2\""
+
+output=$(automator -i "$URL" "$WF2"  2>&1)
 RC=$?
+
+output=$(alf_remove_spesh "$output")
 
 if [ $RC -ne 0 ]
 then

@@ -51,10 +51,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>on run argv		-- can't capture output as we need it to run in the background	do shell script ("automator -i " &amp; item 1 of argv &amp; " &amp;&gt; /dev/null &amp;")
-	-- wait a couple of seconds for the first launcher to finish	do shell script ("sleep 2")
-	-- get the pid of the second launcher, then kill it
-	-- this stops the spinning automator gear in the menu bar	set app_name to "[A]utomator Launcher"		set the_pid to (do shell script "ps ax | grep " &amp; (quoted form of app_name) &amp; " |  awk '{print $1}'")		do shell script ("kill -9 " &amp; the_pid)	end run</string>
+					<string>on run argv		-- can't capture output as we need it to run in the background	do shell script ("automator -i " &amp; item 1 of argv &amp; " &amp;&gt; /dev/null &amp;")		-- wait a couple of seconds for the first launcher to finish	do shell script ("sleep 2")		-- get the pid of the second launcher, then kill it	-- this stops the spinning automator gear in the menu bar	set app_name to "[A]utomator Launcher"		set the_pid to (do shell script "ps ax | grep " &amp; (quoted form of app_name) &amp; " |  awk '{print $1}'")		do shell script ("kill -9 " &amp; the_pid)	end run</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
@@ -90,9 +87,9 @@
 					<dict>
 						<key>default value</key>
 						<string>on run {input, parameters}
-
+	
 	(* Your script goes here *)
-
+	
 	return input
 end run</string>
 						<key>name</key>
@@ -105,8 +102,6 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
