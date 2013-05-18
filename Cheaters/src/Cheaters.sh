@@ -3,11 +3,14 @@
 source utils.sh
 source workflowHandler.sh
 
-VERSION="1.4"
+VERSION="1.5"
 DATADIR=$(getDataDir)
 #echo "$DATADIR"
 
 CHEATERSDIR="$DATADIR/cheaters"
+# edit this line if you have your own fork
+MAIN_REPO="https://github.com/ttscoff/cheaters.git"
+MAIN_REPO_RE="https://github.com/ttscoff/cheaters"
 
 #echo "$CHEATERSDIR"
 
@@ -34,7 +37,6 @@ WF="$PWD/Cheaters.workflow"
 WF2="$PWD/CheatersRunner.workflow"
 #AS_RUNNER="$PWD/runner.scpt"
 #AS_PROG="$PWD/prog.scpt"
-CHEATERS_GIT_REMOTE="https://github.com/ttscoff/cheaters.git"
 
 # quick check to see they exist
 if ! alf_file_exists "$WF" ; then
@@ -75,69 +77,71 @@ if ! alf_type_exists git ; then
 	exit
 fi
 
-if alf_file_exists "$CHEATERSDIR" ; then
+
+if alf_dir_exists "$CHEATERSDIR" ; then
 	#alf_debug "cheaters dir exists"
 	cd "$CHEATERSDIR"
 
 	# check is git repo
 	if ! alf_is_git_repo ; then
-		OUTPUT="NOT a git repo"
-		alf_error $OUTPUT
-		echo "ERROR $OUTPUT"
-		exit
+		alf_debug "NOT a git repo, initialising..."
+		$(alf_git_init_repo "$MAIN_REPO")
 	else
-		#alf_debug "is a git repo"
-		git_info=$(alf_git_status)
+		
+		# if main repo remote, regardless of branch,  with changes
+		# 	- leave as is
+		# if main repo remote and local branch
+		# 	- leave as is
+		# if forked repo 
+		# - leave as is
 
-		#branch=$(alf_get_git_branch)
-
-		#alf_debug "$branch"
-
-		#alf_debug "git_info = [$git_info]"
-
-		if [ "$git_info" != "" ]
-			then
-				alf_debug "GIT not clean"
-				# ask user if they want to reset
-				git_overwrite=$(alf_git_overwrite)
-
-				alf_debug "git_overwrite = [$git_overwrite]"
-
-				if [ "$git_overwrite" == "YES" ]
-				then
-					alf_debug "git_overwrite = YES, updating"
-					# this will just overwrite any uncommitted/stashed/tracked
-					# files in the current branch to the local HEAD.
-					# should this be FETCH_HEAD after a git fetch?
-					git reset -q --hard HEAD
-				else
-					alf_debug "git_overwrite = NO, leaving"
-				fi
-		else
-			alf_debug "GIT clean, not updating"
-			# not sure we need to do this
-			# local branch should be up to date
-			# could do something with origin/upstream remotes
-			# but not at the moment
-			#git pull -q
+		if (! alf_is_main_git_repo "$MAIN_REPO_RE" ); then
+			alf_debug "NOT main repo remote - forked  - no action"
+			# do nothing
 		fi
-	fi
+
+		if (! alf_git_no_changes ); then
+			alf_debug "repo has changes - no action"
+			# do nothing
+		fi
+
+		if (! alf_get_is_master_branch ); then
+			alf_debug "NOT master branch - no action"
+			# do nothing
+		fi
+
+		# if main repo remote, master branch, with no changes
+		if (alf_is_main_git_repo "$MAIN_REPO_RE") &&  (alf_git_no_changes) && (alf_get_is_master_branch) ;
+		then
+			alf_debug "main repo remote, master branch, with no changes"
+			alf_debug "Pull down the latest changes"
+			alf_debug "git pull -q --rebase origin master"
+			
+    		git pull -q --rebase origin master
+    	fi
+    fi
 else
-	alf_debug "cheaters dir does NOT exist, cloning"
-	# edit this line if you have your own fork
+	alf_debug "cheaters dir does NOT exist, creating"
 
-	git clone -q https://github.com/ttscoff/cheaters.git "$CHEATERSDIR"
-	RC=$?
-
-	if [ $RC -ne 0 ]
-	then
-		OUTPUT="Could not clone cheaters git repo"
+	if ! $(mkdir "$CHEATERSDIR" 2> /dev/null); then
+		OUTPUT="Cannot create $CHEATERSDIR cannot continue"
 		alf_error $OUTPUT
 		echo "ERROR $OUTPUT"
-		exit
+		exit 1
 	else
-		alf_debug "cheaters git repo cloned to $CHEATERSDIR"
 		cd "$CHEATERSDIR"
+		$(alf_git_init_repo "$MAIN_REPO")
+
+		RC=$?
+		if [ $RC -ne 0 ];
+		then
+			OUTPUT="Could not clone cheaters git repo"
+			alf_error $OUTPUT
+			echo "ERROR $OUTPUT"
+			exit
+		else
+			alf_debug "cheaters git repo cloned to $CHEATERSDIR"
+		fi
 	fi
 fi
 
