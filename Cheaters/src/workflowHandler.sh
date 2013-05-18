@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # from https://github.com/markokaestner/alfred2/tree/master/workflows/BashWorkflowHandler
 
 VPREFS="${HOME}/Library/Caches/com.runningwithcrayons.Alfred-2/Workflow Data/"
