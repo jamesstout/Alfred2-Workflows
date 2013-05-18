@@ -11,6 +11,33 @@ function alf_remove_spesh(){
     echo "$result"
 }
 
+# add -t param to tag log in syslog
+loggerCmd="logger -t 'Alfred Workflow'"
+
+# Success logging
+alf_success() {
+    eval $loggerCmd "SUCCESS: $@"
+}
+
+# debug logging
+alf_debug() {
+    eval $loggerCmd "DEBUG: $@"
+}
+
+# error logging
+alf_error() {
+    eval $loggerCmd "ERROR: $@"
+}
+
+alf_dir_resolve()
+{
+    # don't quote $1 here, we will really only use to expand ~
+    cd $1 2>/dev/null || return $?    # cd to desired directory; if fail, quell any error messages but return exit status
+    echo "`pwd -P`" # output full, link-resolved path
+}
+
+# this is a bit over the top
+# could just guess some sensible defaults paths...
 alf_guess_path(){
 
     if [ -n "$HOME" ]; then
@@ -36,72 +63,34 @@ alf_guess_path(){
 
     for ((i=0; i<${#potentials[@]}; ++i));
     do
-    #echo "animal $i: ${tmp[$i]}";
-    #paths=("${paths[@]}" "$(which ${uniq[$i]})")
-    #echo "animal $i: ${potentials[$i]}";
+        declare -a path_comps=($(grep "export PATH" ${potentials[$i]} )) 
 
-    declare -a path_comps=($(grep "export PATH" ${potentials[$i]} )) #| tr -s ':' ' ' | tr -s '=' ' '))
-
-    if [ "${#path_comps[@]}" -lt "1" ]; then
-        alf_error 'No export PATHS found'
-        return 1
-    fi
-
-    #echo "path $path";
-    #$(dirname $path)
+        if [ "${#path_comps[@]}" -lt "1" ]; then
+            alf_error 'No export PATHS found'
+            return 1
+        fi
 
         for ((ii=0; ii<${#path_comps[@]}; ++ii));
-            do
-            #echo "aniimal $ii: ${tmp[$ii]}";
-                #echo "animal $ii: ${path_comps[$ii]}";
-
-            #paths=("${paths[@]}" "$(whiich ${uniiq[$ii]})")
+        do
             if grep '^PATH' <<<${path_comps[$ii]} &> /dev/null; then
-
-               # echo "start $ii: ${path_comps[$ii]}";
 
                 TMP_PATH=${path_comps[$ii]}
 
-                #echo "tp = $TMP_PATH"
-                #echo "tp = ${#TMP_PATH}"
-                #echo "lp = $longestPath"
-
-
                 if [ "${#TMP_PATH}" -gt "$longestPath" ]; then
-                  #  echo "new longest"
-
                     longestPath=${#TMP_PATH}
                     longestPathStr=$TMP_PATH
-
-                   # echo "new longeststr: $longestPathStr"
-                   # echo "new longest: $longestPath"
                 fi
-
             fi
+        done
+    done
 
-            #TMP_PATH=""
-
-            #echo "path $path";
-            #$(dirname $path)
-            done
-
-done
-
-if [ "${#longestPathStr}" -gt "0" ]; then
-    printf $longestPathStr
-else
-    alf_error 'No PATHS found'
-    return 1
-fi
-
-}
-
-
-alf_dir_resolve()
-{
-    # don't quote $1 here, we will really only use to expand ~
-    cd $1 2>/dev/null || return $?    # cd to desired directory; if fail, quell any error messages but return exit status
-    echo "`pwd -P`" # output full, link-resolved path
+    if [ "${#longestPathStr}" -gt "0" ]; then
+        alf_debug  "$longestPathStr"
+        printf "$longestPathStr"
+    else
+        alf_error 'No PATHS found'
+        return 1
+    fi
 }
 
 # check if a file/folder/link exists
@@ -120,24 +109,6 @@ alf_dir_exists() {
     return 1
 }
 
-# add -t param to tag log in syslog
-loggerCmd="logger -t 'Alfred Workflow'"
-
-# Success logging
-alf_success() {
-    eval $loggerCmd "SUCCESS: $@"
-}
-
-# debug logging
-alf_debug() {
-    eval $loggerCmd "DEBUG: $@"
-}
-
-# error logging
-alf_error() {
-    eval $loggerCmd "ERROR: $@"
-}
-
 # get present working dir
 PWD=`pwd`
 
@@ -145,7 +116,7 @@ alf_is_git_repo() {
     $(git rev-parse --is-inside-work-tree &> /dev/null)
 }
 
-
+# NOT USED
 # Test whether a command exists
 alf_get_cmd_path() {
 
@@ -182,21 +153,23 @@ alf_get_cmd_path() {
     # cmds[5]="7za 7zr"
     # echo ${cmds[@]}
 
+   # alf_debug "before $PATH"
 
 
-    if ! TMP_PATH2="$(alf_guess_path)"; then
-        alf_error "Cannot alf_guess_path, setting to defaults"
-        TMP_PATH2="PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin:/usr/sfw/bin"
-    fi
+    # if ! TMP_PATH2="$(alf_guess_path)"; then
+    #     alf_error "Cannot alf_guess_path, setting to defaults"
+    #     TMP_PATH2="PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin:/usr/sfw/bin"
+    # fi
 
     #TMP_PATH2=$(alf_guess_path)
     #echo "path2 is $TMP_PATH2"
     ##echo "path is $PATH"
 
     # this sets the PATH env var
-    eval $TMP_PATH2
+   # eval $TMP_PATH2
 
     #echo "path is $PATH"
+   # alf_debug "after $PATH"
 
     local retVal
     local count
