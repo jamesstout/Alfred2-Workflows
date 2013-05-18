@@ -1,0 +1,17 @@
+
+
+if main repo remote, master branch, with no changes
+	- git pull
+
+
+if main repo remote, regardless of branch,  with changes
+	- leave as is
+
+if main repo remote and local branch
+	- leave as is
+
+if forked repo 
+	- leave as is
+
+if no repo
+	- clone main repo
