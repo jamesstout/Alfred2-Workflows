@@ -242,6 +242,7 @@ alf_type_exists() {
 
 alf_get_git_branch() {
     local branch_name
+
     # Get the short symbolic ref
     branch_name=$(git symbolic-ref --quiet --short HEAD 2> /dev/null) ||
     # If HEAD isn't a symbolic ref, get the short SHA
@@ -262,7 +263,7 @@ alf_get_is_master_branch(){
     return 1
 }
 
-# must be in the dir,and takes a URL
+# must be in th dir,and takes a URL
 alf_git_init_repo() {
 
     if [ $# -eq 0 ]
@@ -274,7 +275,14 @@ alf_git_init_repo() {
     main_git_repo="$1"
 
     if $(alf_check_url "$main_git_repo"); then
-        return 0
+
+        git init -q
+        git remote add origin $main_git_repo
+        git fetch -q origin master
+        # Reset the index and working tree to the fetched HEAD
+        git reset -q --hard FETCH_HEAD
+        # Remove any untracked files
+        #git clean -fd
     else
         return 1
     fi
@@ -390,10 +398,7 @@ alf_git_no_changes() {
 
     local git_state=$(alf_git_status)
 
-    #echo "git_state = $git_state" >>  "$LOGFILE"
-
     if [ "$git_state" = "" ]; then
-
         return 0
     else
         return 1
@@ -415,7 +420,7 @@ alf_is_main_git_repo() {
     #echo "$main_git_repo"  >>  "$LOGFILE"
     #echo "$remote_origin_url"  >>  "$LOGFILE"
 
-    if [ "$main_git_repo" = "$remote_origin_url" ]; then
+    if [[ "$remote_origin_url" == "$main_git_repo"* ]]; then
 
     #echo "main repo: $remote_origin_url" >>  "$LOGFILE"
         return 0
@@ -423,6 +428,7 @@ alf_is_main_git_repo() {
         return 1
     fi
 }
+
 
 alf_git_overwrite() {
 
