@@ -1,5 +1,8 @@
 # Changelog for Cheaters  #
 
+##v1.5 - 19 May 2013
+* Improved Git workflow.
+
 ##v1.4 - 19 May 2013
 * Updated Git workflow - improved PATH search. 
 
