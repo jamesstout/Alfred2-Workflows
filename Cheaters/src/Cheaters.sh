@@ -3,7 +3,7 @@
 source utils.sh
 source workflowHandler.sh
 
-VERSION="1.3"
+VERSION="1.4"
 DATADIR=$(getDataDir)
 #echo "$DATADIR"
 
@@ -34,7 +34,7 @@ WF="$PWD/Cheaters.workflow"
 WF2="$PWD/CheatersRunner.workflow"
 #AS_RUNNER="$PWD/runner.scpt"
 #AS_PROG="$PWD/prog.scpt"
-
+CHEATERS_GIT_REMOTE="https://github.com/ttscoff/cheaters.git"
 
 # quick check to see they exist
 if ! alf_file_exists "$WF" ; then
@@ -51,6 +51,22 @@ if ! alf_file_exists "$WF2" ; then
 	exit
 fi
 
+alf_debug "before $PATH"
+
+if ! TMP_PATH2="$(alf_guess_path)"; then
+    alf_error "Cannot alf_guess_path, setting to defaults"
+    TMP_PATH2="PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin:/usr/sfw/bin"
+fi
+
+# this sets the PATH env var
+eval $TMP_PATH2
+
+alf_debug "after $PATH"
+
+GIT_PATH=$(which git) #&> /dev/null
+
+alf_debug "$GIT_PATH"
+
 # check git is installed
 if ! alf_type_exists git ; then
 	OUTPUT="git is NOT installed, cannot continue"
@@ -58,8 +74,6 @@ if ! alf_type_exists git ; then
 	echo "ERROR $OUTPUT"
 	exit
 fi
-
-#alf_debug "git installed"
 
 if alf_file_exists "$CHEATERSDIR" ; then
 	#alf_debug "cheaters dir exists"
@@ -75,10 +89,9 @@ if alf_file_exists "$CHEATERSDIR" ; then
 		#alf_debug "is a git repo"
 		git_info=$(alf_git_status)
 
-		# maybe use later
 		#branch=$(alf_get_git_branch)
 
-		#echo $branch
+		#alf_debug "$branch"
 
 		#alf_debug "git_info = [$git_info]"
 
