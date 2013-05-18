@@ -1,5 +1,8 @@
 # Changelog for Cheaters  #
 
+##v1.4 - 19 May 2013
+* Updated Git workflow - improved PATH search. 
+
 ##v1.3 - 16 April 2013
 * Another fix for spaces in paths. 
 
