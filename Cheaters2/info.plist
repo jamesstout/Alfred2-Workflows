@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.stouty.cheaters2</string>
+	<key>connections</key>
+	<dict>
+		<key>21DCAA1C-9038-4E23-9189-46D83AB07855</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>4D5D7EE4-A903-4267-9B7A-13B522D58B66</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>2FE9D602-6EBB-4CAA-B0BA-1DCD49EAC1E2</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>47E506D1-601C-4940-94BD-DEC7365A81BB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>James Stout</string>
+	<key>description</key>
+	<string>fdfsfsdf</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Cheaters 2</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>ewerwerewrwe</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>4D5D7EE4-A903-4267-9B7A-13B522D58B66</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>63</integer>
+				<key>keyword</key>
+				<string>jsch</string>
+				<key>runningsubtext</key>
+				<string>Fetching data...</string>
+				<key>script</key>
+				<string>php -f listCheatSheets.php
+</string>
+				<key>subtext</key>
+				<string>waaaaiiiiittttt</string>
+				<key>title</key>
+				<string>Initinalising repo</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>21DCAA1C-9038-4E23-9189-46D83AB07855</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>#!/bin/bash
+
+source utils.sh
+
+
+alf_debug "running script"
+sh CheatersNEW.sh
+
+</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>47E506D1-601C-4940-94BD-DEC7365A81BB</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>jsinit</string>
+				<key>text</key>
+				<string>Init git</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>2FE9D602-6EBB-4CAA-B0BA-1DCD49EAC1E2</string>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>21DCAA1C-9038-4E23-9189-46D83AB07855</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+		<key>2FE9D602-6EBB-4CAA-B0BA-1DCD49EAC1E2</key>
+		<dict>
+			<key>ypos</key>
+			<real>190</real>
+		</dict>
+		<key>47E506D1-601C-4940-94BD-DEC7365A81BB</key>
+		<dict>
+			<key>ypos</key>
+			<real>180</real>
+		</dict>
+		<key>4D5D7EE4-A903-4267-9B7A-13B522D58B66</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
